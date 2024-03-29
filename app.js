@@ -129,7 +129,7 @@ const getAllStudents = (req, res) => {
 };
 const getStudentById = (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id * 1;
     const result = students.find((el) => el.id === id);
     res.status(200).json({
       status: 'Success',
@@ -180,7 +180,7 @@ const updateStudent = (req, res) => {
 
 const deleteStudent = (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id * 1;
     const index = students.findIndex((el) => el.id === id);
     students.splice(index, 1);
     res.status(200).json({
@@ -195,16 +195,18 @@ const deleteStudent = (req, res) => {
   }
 };
 
-app.get('/api/v1/results', getAllResults);
-app.get('/api/v1/results/:id', getResultsById);
-app.post('/api/v1/results', createResult);
-app.patch('/api/v1/results/:id', updateResult);
-app.delete('/api/v1/results/:id', deleteResult);
-
-app.get('/api/v1/students', getAllStudents);
-app.get('/api/v1/students/:id', getStudentById);
-app.post('/api/v1/students', createStudent);
-app.patch('/api/v1/students/:id', updateStudent);
-app.delete('/api/v1/students/:id', deleteStudent);
+app.get('/api/v1/results', getAllResults)
+   .post('/api/v1/results', createResult);
+app
+  .get('/api/v1/results/:id', getResultsById)
+  .patch('/api/v1/results/:id', updateResult)
+  .delete('/api/v1/results/:id', deleteResult);
+app
+  .get('/api/v1/students', getAllStudents)
+  .post('/api/v1/students', createStudent);
+app
+  .get('/api/v1/students/:id', getStudentById)
+  .patch('/api/v1/students/:id', updateStudent)
+  .delete('/api/v1/students/:id', deleteStudent);
 
 module.exports = app;
