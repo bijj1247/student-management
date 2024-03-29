@@ -6,32 +6,7 @@ const resultRouter = require('./routes/resultRoutes');
 const studentRouter = require('./routes/studentRoutes');
 
 
-const students = [
-  {
-    id: 571,
-    name: 'Sreeja',
-    semester: 3,
-    city: 'Hyderabad',
-    address: 'Rajendra Nagar',
-    contact: 8919125836,
-  },
-  {
-    id: 574,
-    name: 'Ganesh',
-    semester: 3,
-    city: 'Hyderabad',
-    address: 'Banjara Hills',
-    contact: 8919125836,
-  },
-  {
-    id: 576,
-    name: 'Sanjay',
-    semester: 3,
-    city: 'Hyderabad',
-    address: 'Manikonda',
-    contact: 9945687988,
-  },
-];
+
 
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
@@ -128,16 +103,16 @@ const deleteStudent = (req, res) => {
   }
 };
 
-app
-  .get('/api/v1/students', getAllStudents)
-  .post('/api/v1/students', createStudent);
-app
-  .get('/api/v1/students/:id', getStudentById)
-  .patch('/api/v1/students/:id', updateStudent)
-  .delete('/api/v1/students/:id', deleteStudent);
+// app
+//   .get('/api/v1/students', getAllStudents)
+//   .post('/api/v1/students', createStudent);
+// app
+//   .get('/api/v1/students/:id', getStudentById)
+//   .patch('/api/v1/students/:id', updateStudent)
+//   .delete('/api/v1/students/:id', deleteStudent);
 
 // Routes
-// app.use('/api/v1/students', studentRouter);
+app.use('/api/v1/students', studentRouter);
 app.use('/api/v1/results', resultRouter);
 
 module.exports = app;

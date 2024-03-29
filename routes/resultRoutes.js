@@ -14,4 +14,4 @@ router
   .patch(resultController.updateResult)
   .delete(resultController.deleteResult);
 
-  module.exports = router;
+module.exports = router;
