@@ -1,9 +1,9 @@
-const marks = [
-  { id: 571, name: 'Sreeja', semester: 3, csa: 'A+', dbms: 'A', MFCS: 'B+' },
-  { id: 574, name: 'Ganesh', semester: 3, csa: 'A', dbms: 'B', MFCS: 'C' },
-  { id: 576, name: 'Sanjay', semester: 3, csa: 'A+', dbms: 'A+', MFCS: 'A+' },
-];
+const fs = require('fs');
+// const mam = require('../dev-data/results.json')
 
+const marks = JSON.parse(
+  fs.readFileSync(`${__dirname}/../dev-data/results.json`)
+);
 
 exports.getAllResults = (req, res) => {
   try {
@@ -39,10 +39,17 @@ exports.createResult = (req, res) => {
   try {
     const newStudentResult = req.body;
     marks.push(newStudentResult);
-    res.status(201).json({
-      status: 'success',
-      data: newStudentResult,
-    });
+
+    fs.writeFile(
+      `${__dirname}/../dev-data/results.json`,
+      JSON.stringify(marks),
+      (err) => {
+        res.status(201).json({
+          status: 'success',
+          data: newStudentResult,
+        });
+      }
+    );
   } catch (err) {
     res.status(400).json({
       status: 'Failed',
@@ -57,15 +64,31 @@ exports.updateResult = (req, res) => {
   // console.log(index)
   const updatedResult = req.body;
   marks[index] = updatedResult;
-  res.status(200).json({
-    status: 'Success',
-  });
+  fs.writeFile(
+    `${__dirname}/../dev-data/results.json`,
+    JSON.stringify(marks),
+    (err) => {
+      res.status(200).json({
+        status: 'Success',
+      });
+    }
+  );
+ 
 };
 
 exports.deleteResult = (req, res) => {
   const id = req.params.id;
   const index = marks.findIndex((el) => el.id === id);
   marks.splice(index, 1);
+  fs.writeFile(
+    `${__dirname}/../dev-data/results.json`,
+    JSON.stringify(marks),
+    (err) => {
+      res.status(200).json({
+        status: 'Success',
+      });
+    }
+  );
   res.status(200).json({
     status: 'success',
     message: 'Result Successfully deleted.',

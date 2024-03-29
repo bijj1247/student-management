@@ -1,0 +1,58 @@
+[
+    {
+        "id": 571,
+        "name": "Sreeja",
+        "semester": 3,
+        "csa": "A+",
+        "dbms": "A",
+        "MFCS": "B+"
+    },
+    {
+        "id": 574,
+        "name": "Ganesh",
+        "semester": 3,
+        "csa": "A",
+        "dbms": "B",
+        "MFCS": "C"
+    },
+    {
+        "id": 576,
+        "name": "Sanjay",
+        "semester": 3,
+        "csa": "A+",
+        "dbms": "A+",
+        "MFCS": "A+"
+    },
+    {
+        "id": 575,
+        "name": "Bhavya",
+        "semester": 3,
+        "csa": "B+",
+        "dbms": "A",
+        "MFCS": "B"
+    },
+    {
+        "id": 585,
+        "name": "Hemanth",
+        "semester": 3,
+        "csa": "A",
+        "dbms": "A++",
+        "MFCS": "A++"
+    },
+    {
+        "id": 593,
+        "name": "Dev Abhishek",
+        "semester": 3,
+        "csa": "B",
+        "dbms": "B+",
+        "MFCS": "A++"
+    },
+    {
+        "id": 595,
+        "name": "Deepak Kurma",
+        "semester": 3,
+        "csa": "A",
+        "dbms": "F",
+        "MFCS": "A++"
+    }
+]
