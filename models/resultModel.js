@@ -16,5 +16,21 @@ const resultSchema = new mongoose.Schema({
   semester: {
     type: Number,
     required: [true, 'Please mention the semester the student is studying.'],
+  },
+  MFCS: {
+    type : Number,
+    required: [true, 'Kindly enter the MFCS MARKS.']
+  },
+  DBMS: {
+    type : Number,
+    required: [true, 'Kindly enter the DBMS Marks']
+  },
+  DS: {
+    type: Number,
+    required: [true, 'Kindly enter the marks of data structures.']
+  },
+  CSA: {
+    type: Number,
+    required: [true, 'Kindly enter the marks of Computer Science Architecture.']
   }
 });
