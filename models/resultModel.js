@@ -61,6 +61,10 @@ const resultSchema = new mongoose.Schema({
     min: [0, 'Negative or zero values cannot be taken.'],
     max: [100, 'Please enter valid marks.'],
   },
+  Backlogs: {
+    type: Number,
+    default: 0
+  }
 });
 
 const Result = mongoose.model('Result', resultSchema);

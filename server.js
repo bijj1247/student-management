@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const { stringify } = require('querystring');
 
+dotenv.config({ path: './config.env' });
+
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
@@ -18,8 +20,6 @@ mongoose
   .then(() => {
     console.log('DB CONNECTION SUCCESSFUL');
   });
-
-dotenv.config({ path: './config.env' });
 
 const port = process.env.PORT || 3000;
 
