@@ -34,4 +34,15 @@ const importData = async () => {
   process.exit();
 };
 
+const deleteData = async () =>{
+    try{
+        await Result.deleteMany();
+        console.log("Data Deleted Successfully.")
+    }
+    catch (err) {
+        console.log(err);
+    }
+    process.exit()
+}
+
 importData();

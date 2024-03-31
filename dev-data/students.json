@@ -1,1 +1,34 @@
-[{"id":571,"name":"Sreeja","semester":3,"city":"Hyderabad","address":"Rajendra Nagar","contact":8919125836},{"id":574,"name":"Ganesh","semester":3,"city":"Hyderabad","address":"Banjara Hills","contact":8919125836},{"id":576,"name":"Sanjay","semester":3,"city":"Hyderabad","address":"Manikonda","contact":9945687988},{"id":593,"name":"Dev Abhishek","semester":3,"city":"Hyderabad","address":"Manikonda","contact":9533578577}]
+[
+    {
+        "id": 571,
+        "name": "Sreeja",
+        "semester": 3,
+        "city": "Hyderabad",
+        "address": "Rajendra Nagar",
+        "contact": 8919125836
+    },
+    {
+        "id": 574,
+        "name": "Ganesh",
+        "semester": 3,
+        "city": "Hyderabad",
+        "address": "Banjara Hills",
+        "contact": 8919125836
+    },
+    {
+        "id": 576,
+        "name": "Sanjay",
+        "semester": 3,
+        "city": "Hyderabad",
+        "address": "Manikonda",
+        "contact": 9945687988
+    },
+    {
+        "id": 593,
+        "name": "Dev Abhishek",
+        "semester": 3,
+        "city": "Hyderabad",
+        "address": "Manikonda",
+        "contact": 9533578577
+    }
+]

@@ -1,58 +1,79 @@
 [
     {
         "id": 571,
-        "name": "Sreeja",
+        "name": "Bachanagari Sreeja",
         "semester": 3,
-        "csa": "A+",
-        "dbms": "A",
-        "MFCS": "B+"
+        "CSA": 70,
+        "DBMS": 95,
+        "MFCS": 90,
+        "PS": 93,
+        "DS": 98,
+        "QMLR": 89
     },
     {
         "id": 574,
-        "name": "Ganesh",
+        "name": "Bijjala SaiGanesh",
         "semester": 3,
-        "csa": "A",
-        "dbms": "B",
-        "MFCS": "C"
+        "CSA": 65,
+        "DBMS": 50,
+        "MFCS": 98,
+        "DS": 89,
+        "QMLR": 96,
+        "PS": 100
     },
     {
         "id": 576,
-        "name": "Sanjay",
+        "name": "Budige Sanjay",
         "semester": 3,
-        "csa": "A+",
-        "dbms": "A+",
-        "MFCS": "A+"
+        "CSA": 70,
+        "DBMS": 65,
+        "MFCS": 60,
+        "PS": 93,
+        "DS": 78,
+        "QMLR": 89
     },
     {
         "id": 575,
-        "name": "Bhavya",
+        "name": "Bokka Bhavya",
         "semester": 3,
-        "csa": "B+",
-        "dbms": "A",
-        "MFCS": "B"
+        "CSA": 85,
+        "DBMS": 65,
+        "MFCS": 60,
+        "PS": 83,
+        "DS": 88,
+        "QMLR": 89
     },
     {
         "id": 585,
-        "name": "Hemanth",
+        "name": "Gajjavalli Hemanth",
         "semester": 3,
-        "csa": "A",
-        "dbms": "A++",
-        "MFCS": "A++"
+        "CSA": 80,
+        "DBMS": 95,
+        "MFCS": 80,
+        "PS": 73,
+        "DS": 68,
+        "QMLR": 89
     },
     {
         "id": 593,
         "name": "Dev Abhishek",
         "semester": 3,
-        "csa": "B",
-        "dbms": "B+",
-        "MFCS": "A++"
+        "CSA": 70,
+        "DBMS": 45,
+        "MFCS": 60,
+        "PS": 93,
+        "DS": 78,
+        "QMLR": 34
     },
     {
         "id": 595,
         "name": "Deepak Kurma",
         "semester": 3,
-        "csa": "A",
-        "dbms": "F",
-        "MFCS": "A++"
+        "CSA": 70,
+        "DBMS": 25,
+        "MFCS": 70,
+        "PS": 63,
+        "DS": 78,
+        "QMLR": 89
     }
 ]
