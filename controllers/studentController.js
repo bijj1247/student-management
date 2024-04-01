@@ -45,7 +45,7 @@ exports.getAllStudents = (req, res) => {
   }
 };
 
-exports.getStudentById = (req, res) => {
+exports.getStudentById = async (req, res) => {
   try {
     const id = req.params.id * 1;
     const result = students.find((el) => el.id === id);

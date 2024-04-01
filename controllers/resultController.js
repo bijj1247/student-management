@@ -1,12 +1,15 @@
 const fs = require('fs');
+const Result = require('../models/resultModel');
 // const mam = require('../dev-data/results.json')
 
-const marks = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/results.json`)
-);
+// const marks = JSON.parse(
+//   fs.readFileSync(`${__dirname}/../dev-data/results.json`)
+// );
 
-exports.getAllResults = (req, res) => {
+
+exports.getAllResults = async (req, res) => {
   try {
+    const marks = await Result.find() 
     res.status(200).json({
       status: 'success',
       results: marks.length,
@@ -20,13 +23,20 @@ exports.getAllResults = (req, res) => {
       message: err,
     });
   }
+
 };
 
-exports.getResultsById = (req, res) => {
+exports.getResultsById = async (req, res) => {
   console.log(req.params.id);
   const id = req.params.id * 1;
 
-  const result = marks.find((el) => el.id === id);
+  const result = await Result.findOne({id:req.params.id});
+  if (!result) {
+    res.status(404).json({
+      status: 'fail',
+      message: 'No Message Found.',
+    });
+  }
   res.status(200).json({
     status: 'success',
     data: {
@@ -35,21 +45,15 @@ exports.getResultsById = (req, res) => {
   });
 };
 
-exports.createResult = (req, res) => {
+exports.createResult = async (req, res) => {
   try {
-    const newStudentResult = req.body;
-    marks.push(newStudentResult);
+    const newStudentResult = await Result.create(req.body);
+    // marks.push(newStudentResult);
 
-    fs.writeFile(
-      `${__dirname}/../dev-data/results.json`,
-      JSON.stringify(marks),
-      (err) => {
-        res.status(201).json({
-          status: 'success',
-          data: newStudentResult,
-        });
-      }
-    );
+    res.status(201).json({
+      status: 'success',
+      data: newStudentResult,
+    });
   } catch (err) {
     res.status(400).json({
       status: 'Failed',
@@ -58,39 +62,27 @@ exports.createResult = (req, res) => {
   }
 };
 
-exports.updateResult = (req, res) => {
+exports.updateResult = async (req, res) => {
   const id = req.params.id * 1;
-  const index = marks.findIndex((el) => el.id === id);
-  // console.log(index)
-  const updatedResult = req.body;
-  marks[index] = updatedResult;
-  fs.writeFile(
-    `${__dirname}/../dev-data/results.json`,
-    JSON.stringify(marks),
-    (err) => {
-      res.status(200).json({
-        status: 'Success',
-      });
-    }
-  );
- 
+  const result = await Result.findOneAndUpdate(id, req.body);
+  if (!result) {
+    res.status(404).json({
+      status: 'fail',
+      message: 'No Message Found.',
+    });
+  }
+
+  res.status(200).json({
+    status: 'Success',
+  });
 };
 
-exports.deleteResult = (req, res) => {
+exports.deleteResult = async (req, res) => {
   const id = req.params.id;
-  const index = marks.findIndex((el) => el.id === id);
-  marks.splice(index, 1);
-  fs.writeFile(
-    `${__dirname}/../dev-data/results.json`,
-    JSON.stringify(marks),
-    (err) => {
-      res.status(200).json({
-        status: 'Success',
-      });
-    }
-  );
+  const tour = await Result.findOneAndDelete(id)
   res.status(200).json({
     status: 'success',
     message: 'Result Successfully deleted.',
+    data: {tour}
   });
 };
