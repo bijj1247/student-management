@@ -6,10 +6,36 @@ const Result = require('../models/resultModel');
 //   fs.readFileSync(`${__dirname}/../dev-data/results.json`)
 // );
 
+exports.getResultByMongoId = async (req, res) => {
+  try {
+    //1)filtering
+    //Building query
+    const queryObj = { ...req.query };
+    const excludedFields = ['sort', 'page', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    //Advanced filtering
+    
+
+    //executing query
+    const query = await Result.find(queryObj);
+    const marks = await query;
+    res.status(200).json({
+      status: 'Success',
+      results: marks.length,
+      data: { marks },
+    });
+  } catch (err) {
+    res.json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
 
 exports.getAllResults = async (req, res) => {
   try {
-    const marks = await Result.find() 
+    const marks = await Result.find();
     res.status(200).json({
       status: 'success',
       results: marks.length,
@@ -23,14 +49,13 @@ exports.getAllResults = async (req, res) => {
       message: err,
     });
   }
-
 };
 
 exports.getResultsById = async (req, res) => {
   console.log(req.params.id);
   const id = req.params.id * 1;
 
-  const result = await Result.findOne({id:req.params.id});
+  const result = await Result.findOne({ id: req.params.id });
   if (!result) {
     res.status(404).json({
       status: 'fail',
@@ -79,10 +104,10 @@ exports.updateResult = async (req, res) => {
 
 exports.deleteResult = async (req, res) => {
   const id = req.params.id;
-  const tour = await Result.findOneAndDelete(id)
+  const tour = await Result.findOneAndDelete(id);
   res.status(200).json({
     status: 'success',
     message: 'Result Successfully deleted.',
-    data: {tour}
+    data: { tour },
   });
 };

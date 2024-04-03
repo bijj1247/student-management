@@ -8,6 +8,8 @@ router
   .get(resultController.getAllResults)
   .post(resultController.createResult);
 
+router.route('/mongoId').get(resultController.getResultByMongoId);
+
 router
   .route('/:id')
   .get(resultController.getResultsById)
