@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const { stringify } = require('querystring');
 
 dotenv.config({ path: './config.env' });
 

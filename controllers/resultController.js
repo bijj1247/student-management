@@ -10,15 +10,25 @@ exports.getResultByMongoId = async (req, res) => {
   try {
     //1)filtering
     //Building query
+    console.log('in correct place');  
+    console.log(req.query);
     const queryObj = { ...req.query };
+    console.log(queryObj);
     const excludedFields = ['sort', 'page', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
 
     //Advanced filtering
-    
+    let queryStr = JSON.stringify(queryObj);
+    // console.log(queryStr);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`); //g is for repeating multiple times
+    const query = Result.find(JSON.parse(queryStr));
+
+    //2)sorting
+    const sortBy = req.query.sort.split(',').join(' ');
+    console.log(sortBy);
+    query = query.sort(sortBy);
 
     //executing query
-    const query = await Result.find(queryObj);
     const marks = await query;
     res.status(200).json({
       status: 'Success',
@@ -89,7 +99,9 @@ exports.createResult = async (req, res) => {
 
 exports.updateResult = async (req, res) => {
   const id = req.params.id * 1;
-  const result = await Result.findOneAndUpdate(id, req.body);
+  const result = await Result.findOneAndUpdate(id, req.body, {
+    new: true
+  });
   if (!result) {
     res.status(404).json({
       status: 'fail',

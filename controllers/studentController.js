@@ -67,10 +67,7 @@ exports.createStudent = (req, res) => {
     const newStudent = req.body;
     students.push(newStudent);
 
-    fs.writeFile(
-      `${__dirname}/../dev-data/students.json`,
-      JSON.stringify(students),
-      (err) => {
+    fs.writeFile(`${__dirname}/../dev-data/students.json`,JSON.stringify(students),(err) => {
         res.status(201).json({
           status: 'success',
           data: newStudent,
@@ -93,10 +90,7 @@ exports.updateStudent = (req, res) => {
     const updatedStudent = req.body;
     students[index] = updatedStudent;
 
-    fs.writeFile(
-      `${__dirname}/../dev-data/students.json`,
-      JSON.stringify(students),
-      (err) => {
+    fs.writeFile(`${__dirname}/../dev-data/students.json`,JSON.stringify(students),(err) => {
         res.status(200).json({
           status: 'Success',
         });
