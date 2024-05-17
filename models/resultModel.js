@@ -13,6 +13,14 @@ const resultSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'A Student must have his id'],
   },
+  branch:{
+    type: String,
+    required: [true, 'Student must have a branch'],
+    enum: {
+      values: ['CSE','ECE','IT','EEE','MECH'],
+      message:'Branch is either CSE,ECE,EEE,IT,MECH'
+    }
+  },
   semester: {
     type: Number,
     required: [true, 'Please mention the semester the student is studying.'],
@@ -63,9 +71,49 @@ const resultSchema = new mongoose.Schema({
   },
   Backlogs: {
     type: Number,
-    default: 0
+    default: function(){
+      var num=0;
+    if(this.CSA <35) num++;
+    if(this.DBMS <35) num++;
+    if(this.DS <35) num++;
+    if(this.MFCS <35) num++;
+    if(this.PS <35) num++;
+    if(this.QMLR <35) num++;
+    
+    return num;
+    }
+  },
+  createdAt: {
+    type: Date,
+    defualt: Date.now(),
+    select: false
   }
+},{
+  toJSON: {virtuals: true},
+  toObject: {virtuals: true}
 });
+
+//Virtual properties
+resultSchema.virtual('total').get(function(){
+  return (this.QMLR + this.CSA +this.DS + this.DBMS +this.MFCS + this.PS) /6;
+})
+
+//Document Middleware
+// resultSchema.pre('save',function(next){
+//   resultSchema.virtual('No_backlogs').get(function(){
+//     var num=0;
+//     if(this.CSA <35) num++;
+//     if(this.DBMS <35) num++;
+//     if(this.DS <35) num++;
+//     if(this.MFCS <35) num++;
+//     if(this.PS <35) num++;
+//     if(this.QMLR <35) num++;
+    
+//     return num;
+//   })
+//   // this.Backlogs = num;
+//   next();
+// })
 
 const Result = mongoose.model('Result', resultSchema);
 
