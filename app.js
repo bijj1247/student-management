@@ -18,6 +18,10 @@ app.use(express.json());
 app.use('/api/v1/students', studentRouter);
 app.use('/api/v1/results', resultRouter);
 
+app.use((req, res, next) =>{
+  console.log(req.headers)
+})
+
 app.all('*',(req,res,next)=>{
 
   next(new AppError(`Can't find ${req.originalUrl} on this server`,404));

@@ -1,10 +1,11 @@
-const fs = require('fs');
 const Student = require('../models/studentModel');
+const jwt = require('jsonwebtoken')
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError')
 
-exports.getAllStudents = (req, res) => {
-  try {
+exports.getAllStudents = async(req, res) => {
+  try { 
+    const students = await Student.find();
     res.status(200).json({
       status: 'Success',
       results: students.length,
@@ -21,7 +22,7 @@ exports.getAllStudents = (req, res) => {
 exports.getStudentById = async (req, res) => {
   try {
     const id = req.params.id * 1;
-    const result = students.find((el) => el.id === id);
+    const result = await Student.findOne({id});
     res.status(200).json({
       status: 'Success',
       result: result.length,
@@ -48,8 +49,14 @@ exports.createStudent = catchAsync(async (req, res) => {
     branch: req.body.branch,
     email:req.body.email
   });
+
+  const token = jwt.sign({id: newStudent._id}, process.env.JWT_SECRET,{
+    expiresIn: process.env.JWT_EXPIRES_IN
+  })
+
   res.status(201).json({
     status: 'success',
+    token,
     data: { student: newStudent },
   });
 });

@@ -1,6 +1,6 @@
 const express = require('express');
 const studentController = require('../controllers/studentController');
-
+const authController = require('../controllers/authController')
 const router = express.Router();
 
 router
@@ -8,10 +8,11 @@ router
   .get(studentController.getAllStudents)
   .post(studentController.createStudent);
 
+router.post('/login',authController.login)
 router
   .route('/:id')
-  .get(studentController.getStudentById)
+  .get(authController.protect,studentController.getStudentById)
   .patch(studentController.updateStudent)
-  .delete(studentController.deleteStudent);
+  .delete(authController.protect, authController.restrict('admin'), studentController.deleteStudent);
 
 module.exports = router;

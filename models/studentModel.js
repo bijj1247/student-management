@@ -58,7 +58,9 @@ const studentSchema = mongoose.Schema({
     type: String,
     required: [true, 'Please enter Password.'],
     minlength: [8, 'Password should have atleast 8 characters.'],
+    select: false,
   },
+  passwordChangedAt: Date,
 });
 
 studentSchema.pre('save', async function (next) {
@@ -68,6 +70,25 @@ studentSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
+
+studentSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+studentSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTTimestamp < changedTimestamp
+  }
+
+  return false;
+};
 
 const Student = mongoose.model('Student', studentSchema);
 

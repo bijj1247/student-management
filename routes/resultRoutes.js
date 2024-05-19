@@ -1,6 +1,6 @@
 const express = require('express');
 const resultController = require('../controllers/resultController');
-
+const authController = require('./../controllers/authController')
 const router = express.Router();
 
 // router.route('/top-5-students').get(resultController.aliasTopScorers)
