@@ -1,13 +1,14 @@
 const fs = require('fs');
 const Result = require('../models/resultModel');
 // const mam = require('../dev-data/results.json')
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 // const marks = JSON.parse(
 //   fs.readFileSync(`${__dirname}/../dev-data/results.json`)
 // );
 
-exports.getResultByMongoId = async (req, res) => {
-  try {
+exports.getResultByMongoId = catchAsync( async (req, res) => {
     //1)filtering
     //Building query
     console.log('in correct place');
@@ -43,7 +44,7 @@ exports.getResultByMongoId = async (req, res) => {
     const skip = (page - 1) * limit;
     if (req.query.page) {
       const numStudents = await Result.countDocuments();
-      if(skip>numStudents) throw new Error('This page does not exist.')
+      if (skip > numStudents) throw new Error('This page does not exist.');
     }
     query = query.skip(skip).limit(limit);
 
@@ -55,16 +56,10 @@ exports.getResultByMongoId = async (req, res) => {
       results: marks.length,
       data: { marks },
     });
-  } catch (err) {
-    res.json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
 
-exports.getAllResults = async (req, res) => {
-  try {
+});
+
+exports.getAllResults = catchAsync(async (req, res) => {
     const marks = await Result.find();
     res.status(200).json({
       status: 'success',
@@ -73,24 +68,16 @@ exports.getAllResults = async (req, res) => {
         marks,
       },
     });
-  } catch (err) {
-    res.json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+  
+});
 
-exports.getResultsById = async (req, res) => {
+exports.getResultsById = catchAsync(async (req, res) => {
   console.log(req.params.id);
   const id = req.params.id * 1;
 
   const result = await Result.findOne({ id: req.params.id });
   if (!result) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'No Message Found.',
-    });
+    return next(new AppError('No student found with the ID',404))
   }
   res.status(200).json({
     status: 'success',
@@ -98,55 +85,47 @@ exports.getResultsById = async (req, res) => {
       result,
     },
   });
-};
+});
 
-exports.createResult = async (req, res) => {
-  try {
-    const newStudentResult = await Result.create(req.body);
-    // marks.push(newStudentResult);
 
-    res.status(201).json({
-      status: 'success',
-      data: newStudentResult,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'Failed',
-      message: err,
-    });
-  }
-};
 
-exports.updateResult = async (req, res) => {
+exports.createResult = catchAsync(async (req, res, next) => {
+  const newStudentResult = await Result.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    data: { student: newStudentResult },
+  });
+});
+
+exports.updateResult = catchAsync(async (req, res) => {
   const id = req.params.id * 1;
   const result = await Result.findOneAndUpdate(id, req.body, {
     new: true,
   });
   if (!result) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'No Message Found.',
-    });
+    return next(new AppError('No student found with the ID',404))
   }
-
   res.status(200).json({
     status: 'Success',
   });
-};
+});
 
-exports.deleteResult = async (req, res) => {
+exports.deleteResult = catchAsync(async (req, res) => {
   const id = req.params.id;
-  const tour = await Result.findOneAndDelete(id);
+  const result = await Result.findOneAndDelete(id);
+  if (!result) {
+    return next(new AppError('No student found with the ID',404))
+  }
   res.status(200).json({
     status: 'success',
     message: 'Result Successfully deleted.',
-    data: { tour },
+    data: { result },
   });
-};
+});
 
-exports.aliaTopScorers = async(req,res,next) =>{
+exports.aliaTopScorers = async (req, res, next) => {
   req.query.limit = '5';
   req.query.sort = '-DS,PS,DBMS,CSA';
   req.query.fileds = 'name';
   next();
-}
+};
