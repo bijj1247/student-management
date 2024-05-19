@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const studentSchema = mongoose.Schema({
   name: {
@@ -50,14 +51,22 @@ const studentSchema = mongoose.Schema({
   email: {
     type: String,
     required: [true, 'Please enter your email address.'],
-    lowercase:true,
-    validate:[validator.isEmail,'Please provide a valid email.']
+    lowercase: true,
+    validate: [validator.isEmail, 'Please provide a valid email.'],
   },
   password: {
     type: String,
     required: [true, 'Please enter Password.'],
-    minlength:[8,'Password should have atleast 8 characters.']
+    minlength: [8, 'Password should have atleast 8 characters.'],
   },
+});
+
+studentSchema.pre('save', async function (next) {
+  //only run this function if pasword was actually modified
+  if (!this.isModified('password')) return next();
+  //hash the password with cost 12
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
 });
 
 const Student = mongoose.model('Student', studentSchema);

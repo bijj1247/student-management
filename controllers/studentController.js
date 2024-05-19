@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Student = require('../models/studentModel');
 const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError')
 
 exports.getAllStudents = (req, res) => {
   try {
@@ -35,14 +36,25 @@ exports.getStudentById = async (req, res) => {
 };
 
 exports.createStudent = catchAsync(async (req, res) => {
-  const newStudent = await Student.create(req.body);
+  const newStudent = await Student.create({
+    id:req.body.id,
+    name: req.body.name,
+    semester: req.body.semester,
+    City: req.body.City,
+    address: req.body.address,
+    contact:req.body.contact,
+    Father:req.body.Father,
+    password: req.body.password,
+    branch: req.body.branch,
+    email:req.body.email
+  });
   res.status(201).json({
     status: 'success',
     data: { student: newStudent },
   });
 });
 
-exports.updateStudent = catchAsync(async(req, res) => {
+exports.updateStudent = catchAsync(async(req, res,next) => {
   const id = req.params.id * 1;
   const student = await Student.findOneAndUpdate(id, req.body, {
     new: true,
