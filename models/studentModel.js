@@ -60,6 +60,6 @@ const studentSchema = mongoose.Schema({
   },
 });
 
-const Student = mongoose.Model('Student', studentSchema);
+const Student = mongoose.model('Student', studentSchema);
 
 module.exports = Student;

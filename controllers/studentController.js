@@ -1,34 +1,6 @@
-const fs = require('fs')
-const students = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/students.json`)
-)
-
-// const students = [
-//   {
-//     id: 571,
-//     name: 'Sreeja',
-//     semester: 3,
-//     city: 'Hyderabad',
-//     address: 'Rajendra Nagar',
-//     contact: 8919125836,
-//   },
-//   {
-//     id: 574,
-//     name: 'Ganesh',
-//     semester: 3,
-//     city: 'Hyderabad',
-//     address: 'Banjara Hills',
-//     contact: 8919125836,
-//   },
-//   {
-//     id: 576,
-//     name: 'Sanjay',
-//     semester: 3,
-//     city: 'Hyderabad',
-//     address: 'Manikonda',
-//     contact: 9945687988,
-//   },
-// ];
+const fs = require('fs');
+const Student = require('../models/studentModel');
+const catchAsync = require('../utils/catchAsync');
 
 exports.getAllStudents = (req, res) => {
   try {
@@ -62,69 +34,36 @@ exports.getStudentById = async (req, res) => {
   }
 };
 
-exports.createStudent = (req, res) => {
-  try {
-    const newStudent = req.body;
-    students.push(newStudent);
+exports.createStudent = catchAsync(async (req, res) => {
+  const newStudent = await Student.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    data: { student: newStudent },
+  });
+});
 
-    fs.writeFile(`${__dirname}/../dev-data/students.json`,JSON.stringify(students),(err) => {
-        res.status(201).json({
-          status: 'success',
-          data: newStudent,
-        });
-      }
-    );
-  } catch (err) {
-    res.status(406).json({
-      status: 'Failure',
-      message: err,
-    });
+exports.updateStudent = catchAsync(async(req, res) => {
+  const id = req.params.id * 1;
+  const student = await Student.findOneAndUpdate(id, req.body, {
+    new: true,
+  });
+  if (!student) {
+    return next(new AppError('No student found with the ID',404))
   }
-};
+  res.status(200).json({
+    status: 'Success',
+  });
+});
 
-exports.updateStudent = (req, res) => {
-  try {
-    const id = req.params.id * 1;
-    const index = students.findIndex((el) => el.id === id);
-    // console.log(index)
-    const updatedStudent = req.body;
-    students[index] = updatedStudent;
-
-    fs.writeFile(`${__dirname}/../dev-data/students.json`,JSON.stringify(students),(err) => {
-        res.status(200).json({
-          status: 'Success',
-        });
-      }
-    );
-  } catch (err) {
-    res.status(406).json({
-      status: 'Failure',
-      message: err,
-    });
+exports.deleteStudent = catchAsync(async(req, res) => {
+  const id = req.params.id;
+  const student = await Student.findOneAndDelete(id);
+  if (!student) {
+    return next(new AppError('No student found with the ID',404))
   }
-};
-
-exports.deleteStudent = (req, res) => {
-  try {
-    const id = req.params.id * 1;
-    const index = students.findIndex((el) => el.id === id);
-    students.splice(index, 1);
-
-    fs.writeFile(
-      `${__dirname}/../dev-data/students.json`,
-      JSON.stringify(students),
-      (err) => {
-        res.status(200).json({
-          status: 'Success',
-          message: 'Student Successfully deleted.',
-        });
-      }
-    );
-
-  } catch (err) {
-    res.status(406).json({
-      status: 'Failure',
-      message: err,
-    });
-  }
-};
+  res.status(200).json({
+    status: 'success',
+    message: 'Result Successfully deleted.',
+    data: { student },
+  });
+});
