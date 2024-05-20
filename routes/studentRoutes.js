@@ -13,6 +13,6 @@ router
   .route('/:id')
   .get(authController.protect,studentController.getStudentById)
   .patch(studentController.updateStudent)
-  .delete(authController.protect, authController.restrict('admin'), studentController.deleteStudent);
+  .delete(authController.protect,  studentController.deleteStudent);
 
 module.exports = router;

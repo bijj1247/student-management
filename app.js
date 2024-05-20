@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const app = express();
 const resultRouter = require('./routes/resultRoutes');
 const studentRouter = require('./routes/studentRoutes');
+const adminRouter = require('./routes/adminRoutes')
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController')
 
@@ -17,6 +18,7 @@ app.use(express.json());
 // Routes
 app.use('/api/v1/students', studentRouter);
 app.use('/api/v1/results', resultRouter);
+app.use('/api/v1/admin', adminRouter)
 
 app.use((req, res, next) =>{
   console.log(req.headers)

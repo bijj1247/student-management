@@ -29,7 +29,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401));
   }
 
-  // 3) If everything is ok, send token to client.
+  // 2) check if user exists && passoword is correct.
   const token = signToken(student._id);
   res.status(200).json({
     status: 'success',
