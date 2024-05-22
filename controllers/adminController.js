@@ -3,6 +3,19 @@ const catchAsync = require('../utils/catchAsync');
 const Admin = require('./../models/adminModel');
 const jwt = require('jsonwebtoken');
 
+exports.getAllAdmins = catchAsync(async (req, res, next) =>{
+  const admins = await Admin.find();
+
+  res.status(200).json({
+    status: 'Success',
+    results: admins.length,
+    data:{
+      admins
+    }
+  })
+})
+
+
 exports.createAdmin = catchAsync(async (req, res, next) => {
   const admin = await Admin.create({
     emp_id: req.body.emp_id,

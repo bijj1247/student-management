@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-
+const Admin = require('./adminModel');
 const studentSchema = mongoose.Schema({
   name: {
     type: String,
@@ -61,6 +61,27 @@ const studentSchema = mongoose.Schema({
     select: false,
   },
   passwordChangedAt: Date,
+  // mentor: Array,
+  mentor: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Admin',
+  },
+});
+
+//Virtual populate
+studentSchema.virtual('remarks',{
+  ref: 'Remark',
+  foreignField: 'student',
+  localField: '_id'
+})
+
+studentSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'mentor',
+    select: 'name -_id',
+  });
+  this.populate('remarks')
+  next();
 });
 
 studentSchema.pre('save', async function (next) {
@@ -78,13 +99,22 @@ studentSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
+// embedding
+
+// studentSchema.pre('save', async function (next) {
+//   const mentors = this.mentor.map(async (id) => await Admin.findById(id));
+//   // console.log(mentors);
+//   this.mentor = await Promise.all(mentors);
+//   next();
+// });
+
 studentSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
       10
     );
-    return JWTTimestamp < changedTimestamp
+    return JWTTimestamp < changedTimestamp;
   }
 
   return false;

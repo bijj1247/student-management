@@ -7,6 +7,7 @@ const studentRouter = require('./routes/studentRoutes');
 const adminRouter = require('./routes/adminRoutes')
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController')
+const remarkRouter = require('./routes/remarkRoutes')
 
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/v1/students', studentRouter);
 app.use('/api/v1/results', resultRouter);
 app.use('/api/v1/admin', adminRouter)
+app.use('/api/v1/remarks', remarkRouter)
 
 app.use((req, res, next) =>{
   console.log(req.headers)
