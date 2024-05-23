@@ -2,10 +2,11 @@ const Student = require('../models/studentModel');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const factory = require('./factoryHandler');
 
 exports.getAllStudents = async (req, res) => {
   try {
-    const students = await Student.find()
+    const students = await Student.find().populate('remarks');
     res.status(200).json({
       status: 'Success',
       results: students.length,
@@ -22,7 +23,7 @@ exports.getAllStudents = async (req, res) => {
 exports.getStudentById = async (req, res) => {
   try {
     const id = req.params.id * 1;
-    const result = await Student.findOne({ id });
+    const result = await Student.findOne({ id }).populate('remarks');
     res.status(200).json({
       status: 'Success',
       result: result.length,
@@ -75,15 +76,4 @@ exports.updateStudent = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteStudent = catchAsync(async (req, res) => {
-  const id = req.params.id;
-  const student = await Student.findOneAndDelete(id);
-  if (!student) {
-    return next(new AppError('No student found with the ID', 404));
-  }
-  res.status(200).json({
-    status: 'success',
-    message: 'Result Successfully deleted.',
-    data: { student },
-  });
-});
+exports.deleteStudent = factory.deleteOne(Student);

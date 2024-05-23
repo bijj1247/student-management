@@ -1,5 +1,6 @@
 const Remark = require('../models/remarkModel');
 const catchAsync = require('./../utils/catchAsync')
+const factory = require('./factoryHandler');
 
 exports.getAllRemarks = catchAsync(async (req, res, next) =>{
     const remarks = await Remark.find();
@@ -23,3 +24,5 @@ exports.createRemark = catchAsync(async (req, res, next)=>{
         }
     })
 })
+
+exports.deleteRemark = factory.deleteBYMongoId(Remark)

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const Admin = require('./adminModel');
+const Remark = require('./remarkModel')
 const studentSchema = mongoose.Schema({
   name: {
     type: String,
@@ -80,7 +81,7 @@ studentSchema.pre(/^find/, function (next) {
     path: 'mentor',
     select: 'name -_id',
   });
-  this.populate('remarks')
+  // this.populate('remarks')
   next();
 });
 
