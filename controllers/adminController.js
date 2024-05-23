@@ -4,18 +4,7 @@ const Admin = require('./../models/adminModel');
 const jwt = require('jsonwebtoken');
 const factory = require('./factoryHandler');
 
-exports.getAllAdmins = catchAsync(async (req, res, next) => {
-  const admins = await Admin.find();
-
-  res.status(200).json({
-    status: 'Success',
-    results: admins.length,
-    data: {
-      admins,
-    },
-  });
-});
-
+exports.getAllAdmins = factory.getAll(Admin);
 
 exports.adminLogin = catchAsync(async (req, res, next) => {
   // 1) to check email and passord exist.
@@ -40,7 +29,6 @@ exports.adminLogin = catchAsync(async (req, res, next) => {
     token,
   });
 });
-
 
 exports.createAdmin = factory.createOne(Admin);
 exports.updateAdmin = factory.updateOne(Admin);

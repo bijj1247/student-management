@@ -4,21 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./factoryHandler');
 
-exports.getAllStudents = async (req, res) => {
-  try {
-    const students = await Student.find().populate('remarks');
-    res.status(200).json({
-      status: 'Success',
-      results: students.length,
-      data: students,
-    });
-  } catch (err) {
-    res.status(406).json({
-      status: 'Failure',
-      message: err,
-    });
-  }
-};
+
 
 exports.getStudentById = async (req, res) => {
   try {
@@ -64,7 +50,6 @@ exports.createStudent = catchAsync(async (req, res) => {
 });
 
 
-
-exports.updateStudent = factory.updateOne(Student)
-
+exports.updateStudent = factory.updateOne(Student);
+exports.getAllStudents = factory.getAll(Student);
 exports.deleteStudent = factory.deleteOne(Student);

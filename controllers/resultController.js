@@ -59,16 +59,7 @@ exports.getResultByMongoId = catchAsync(async (req, res) => {
   });
 });
 
-exports.getAllResults = catchAsync(async (req, res) => {
-  const marks = await Result.find();
-  res.status(200).json({
-    status: 'success',
-    results: marks.length,
-    data: {
-      marks,
-    },
-  });
-});
+
 
 exports.getResultsById = catchAsync(async (req, res) => {
   console.log(req.params.id);
@@ -87,7 +78,7 @@ exports.getResultsById = catchAsync(async (req, res) => {
 });
 
 exports.createResult = factory.createOne(Result);
-
+exports.getAllResults = factory.getAll(Result);
 exports.updateResult = factory.updateOne(Result);
 exports.deleteResult = factory.deleteOne(Result);
 
