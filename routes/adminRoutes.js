@@ -9,5 +9,9 @@ router
   .get(adminController.getAllAdmins);
 
 router.route('/adminlogin').post(adminController.adminLogin);
-router.route('/:id').delete(adminController.deleteAdmin);
+router
+  .route('/:id')
+  .delete(adminController.deleteAdmin)
+  .patch(adminController.updateAdmin);
+
 module.exports = router;

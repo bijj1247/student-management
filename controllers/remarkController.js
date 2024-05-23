@@ -14,15 +14,5 @@ exports.getAllRemarks = catchAsync(async (req, res, next) =>{
     })
 })
 
-exports.createRemark = catchAsync(async (req, res, next)=>{
-    const newRemark = await Remark.create(req.body);
-
-    res.status(201).json({
-        status: 'success',
-        data: {
-            remark: newRemark
-        }
-    })
-})
-
+exports.createRemark = factory.createOne(Remark)
 exports.deleteRemark = factory.deleteBYMongoId(Remark)

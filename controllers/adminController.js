@@ -16,23 +16,6 @@ exports.getAllAdmins = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createAdmin = catchAsync(async (req, res, next) => {
-  const admin = await Admin.create({
-    emp_id: req.body.emp_id,
-    name: req.body.name,
-    department: req.body.department,
-    contact: req.body.contact,
-    email: req.body.email,
-    password: req.body.password,
-  });
-
-  res.status(201).json({
-    status: 'Success',
-    data: {
-      admin,
-    },
-  });
-});
 
 exports.adminLogin = catchAsync(async (req, res, next) => {
   // 1) to check email and passord exist.
@@ -58,4 +41,7 @@ exports.adminLogin = catchAsync(async (req, res, next) => {
   });
 });
 
+
+exports.createAdmin = factory.createOne(Admin);
+exports.updateAdmin = factory.updateOne(Admin);
 exports.deleteAdmin = factory.deleteOne(Admin);

@@ -63,17 +63,8 @@ exports.createStudent = catchAsync(async (req, res) => {
   });
 });
 
-exports.updateStudent = catchAsync(async (req, res, next) => {
-  const id = req.params.id * 1;
-  const student = await Student.findOneAndUpdate(id, req.body, {
-    new: true,
-  });
-  if (!student) {
-    return next(new AppError('No student found with the ID', 404));
-  }
-  res.status(200).json({
-    status: 'Success',
-  });
-});
+
+
+exports.updateStudent = factory.updateOne(Student)
 
 exports.deleteStudent = factory.deleteOne(Student);

@@ -86,27 +86,9 @@ exports.getResultsById = catchAsync(async (req, res) => {
   });
 });
 
-exports.createResult = catchAsync(async (req, res, next) => {
-  const newStudentResult = await Result.create(req.body);
-  res.status(201).json({
-    status: 'success',
-    data: { student: newStudentResult },
-  });
-});
+exports.createResult = factory.createOne(Result);
 
-exports.updateResult = catchAsync(async (req, res) => {
-  const id = req.params.id * 1;
-  const result = await Result.findOneAndUpdate(id, req.body, {
-    new: true,
-  });
-  if (!result) {
-    return next(new AppError('No student found with the ID', 404));
-  }
-  res.status(200).json({
-    status: 'Success',
-  });
-});
-
+exports.updateResult = factory.updateOne(Result);
 exports.deleteResult = factory.deleteOne(Result);
 
 exports.aliaTopScorers = async (req, res, next) => {

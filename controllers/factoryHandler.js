@@ -30,3 +30,23 @@ exports.deleteBYMongoId = (Modal) =>
     });
   });
 
+exports.updateOne = Modal => catchAsync(async (req, res, next) => {
+  const doc = await Modal.findOneAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  if (!doc) {
+    return next(new AppError('ID not found!', 404));
+  }
+  res.status(200).json({
+    status: 'Success',
+    data: doc,
+  });
+});
+
+exports.createOne = Modal =>catchAsync(async (req, res, next) => {
+  const doc = await Modal.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    data: { doc },
+  });
+});
