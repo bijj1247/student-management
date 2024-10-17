@@ -1,3 +1,4 @@
+//this is student routes page
 const express = require('express');
 const studentController = require('../controllers/studentController');
 const authController = require('../controllers/authController')
