@@ -1,3 +1,4 @@
+//this is admin controller
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Admin = require('./../models/adminModel');
